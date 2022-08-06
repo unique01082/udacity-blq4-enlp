@@ -1,16 +1,27 @@
+import axios from "axios";
+import { checkForUrl } from "./urlChecker";
+
 function handleSubmit(event) {
-    event.preventDefault()
+  event.preventDefault();
 
-    // check what text was put into the form field
-    let formText = document.getElementById('name').value
-    checkForName(formText)
+  // check what text was put into the form field
+  let formText = document.getElementById("name").value;
+  const isValidUrl = checkForUrl(formText);
 
-    console.log("::: Form Submitted :::")
-    fetch('http://localhost:8080/test')
-    .then(res => res.json())
-    .then(function(res) {
-        document.getElementById('results').innerHTML = res.message
-    })
+  console.log("isValidUrl :>> ", isValidUrl);
+
+  if (isValidUrl) {
+    console.log("::: Form Submitted :::");
+    axios.post("http://localhost:8080/test", { url: formText }).then((res) => {
+      document.getElementById("results").innerHTML = JSON.stringify(
+        res,
+        null,
+        2
+      );
+    });
+  } else {
+    alert("Invalid URL");
+  }
 }
 
-export { handleSubmit }
+export { handleSubmit };
