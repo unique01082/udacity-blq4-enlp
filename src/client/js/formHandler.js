@@ -7,13 +7,10 @@ function handleSubmit(event) {
   event.preventDefault();
 
   // check what text was put into the form field
-  let formText = document.getElementById("name").value;
+  let formText = document.getElementById("url").value;
   const isValidUrl = checkForUrl(formText);
 
-  console.log("isValidUrl :>> ", isValidUrl);
-
   if (isValidUrl) {
-    console.log("::: Form Submitted :::");
     results.innerHTML = "Analyzing...";
     axios
       .post("http://localhost:8080/test", { url: formText })

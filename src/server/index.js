@@ -34,7 +34,6 @@ async function fetchData(url) {
         headers: formData.getHeaders(),
       }
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error(error);
