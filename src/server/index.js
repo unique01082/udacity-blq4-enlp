@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const axios = require("axios").default;
+const FormData = require("form-data");
 
 const app = express();
 
@@ -14,17 +15,23 @@ app.use(bodyParser.json());
 
 async function fetchData(url) {
   try {
-    const response = await axios.get(
+    const formData = new FormData();
+    formData.append("key", API_KEY);
+    formData.append("url", url);
+    formData.append("lang", "en");
+    formData.append("txtf", "plain");
+    formData.append("verbose", "n");
+    formData.append("model", "general");
+    formData.append("uw", "n");
+    formData.append("rt", "n");
+    formData.append("egp", "n");
+    formData.append("dm", "s");
+    formData.append("sdg", "l");
+    const response = await axios.post(
       "https://api.meaningcloud.com/sentiment-2.1",
+      formData,
       {
-        params: {
-          key: API_KEY,
-          of: "json",
-          txt: true,
-          model: "general",
-          lang: "en",
-          url,
-        },
+        headers: formData.getHeaders(),
       }
     );
     console.log(response);
